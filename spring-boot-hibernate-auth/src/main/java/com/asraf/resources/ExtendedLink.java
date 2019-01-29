@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpMethod;
 
+import com.asraf.utils.ReflectionUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -57,6 +58,23 @@ public class ExtendedLink extends Link {
 	public ExtendedLink withProxyProperty(String responseName, String searchName) {
 		this.search = this.search == null ? new Search() : this.search;
 		this.search.addProxyProperty(responseName, searchName);
+		return this;
+	}
+
+	public ExtendedLink withSearchableData(String searchParam) {
+		this.initFields();
+		this.search = this.search == null ? new Search() : this.search;
+		this.search = this.search.setParam(searchParam);
+		return this;
+	}
+
+	public ExtendedLink withSearchableData(Class<?> searchClass) {
+		String searchParam = "";
+		for (Map.Entry<String, String> entry : ReflectionUtils.getFieldNameWithTypes(searchClass).entrySet()) {
+			searchParam += ("&" + entry.getKey() + "={" + entry.getValue() + "}");
+		}
+		searchParam = searchParam.substring(1);
+		this.withSearchableData(searchParam);
 		return this;
 	}
 
@@ -117,7 +135,6 @@ public class ExtendedLink extends Link {
 			this.operators.put("Not in", "=out=");
 			this.operators.put("Parent access operator", ".");
 			this.operators.put("Like operator", "*");
-			this.operators.put("String enclosing operator", " ' | \" ");
 			return this;
 		}
 
@@ -133,6 +150,11 @@ public class ExtendedLink extends Link {
 
 		public Search addProxyProperty(String responseName, String searchName) {
 			this.proxyProperties.put(responseName, searchName);
+			return this;
+		}
+
+		public Search setParam(String param) {
+			this.param = param;
 			return this;
 		}
 
