@@ -1,4 +1,4 @@
-CREATE TABLE `myauthdb`.`user` (
+CREATE TABLE `user` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(100) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
@@ -10,4 +10,4 @@ CREATE TABLE `myauthdb`.`user` (
   `creation_time` DATETIME NOT NULL,
   `update_time` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE);
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC));

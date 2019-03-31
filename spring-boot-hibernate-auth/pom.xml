@@ -7,7 +7,7 @@
 	<groupId>com.asraf</groupId>
 	<artifactId>spring-boot-hibernate-auth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>spring-boot-hibernate-auth</name>
 	<description>Spring Boot based Auth Application with Hibernate and Spring Data JPA</description>
