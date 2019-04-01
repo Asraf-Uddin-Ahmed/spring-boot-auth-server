@@ -17,7 +17,7 @@ import com.asraf.constants.UserRole;
 import com.asraf.constants.UserRoleResponse;
 
 @ControllerAdvice
-public class JsonViewConfiguration extends AbstractMappingJacksonResponseBodyAdvice {
+public class UserRoleBasedResponseResolverAdvice extends AbstractMappingJacksonResponseBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
