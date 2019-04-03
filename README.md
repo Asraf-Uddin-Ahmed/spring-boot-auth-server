@@ -32,3 +32,4 @@ java -jar target/spring-boot-hibernate-datajpa.jar --spring.profiles.active=prod
 6. [To generate Querydsl code](https://stackoverflow.com/questions/24482259/eclipse-issue-with-maven-build-and-jdk-when-generating-qclasses-in-querydsl) 
 7. [Profile based development](https://www.youtube.com/watch?v=0zjQX7WwjrI&feature=youtu.be&list=PLGDwUiT1wr6-Fn3N2oqJpTdhGjFHnIIKY)
 8. [Spring security role based response shaping](https://stackoverflow.com/questions/17276081/spring-3-2-filtering-jackson-json-output-based-on-spring-security-role)
+9. [SpEL based validation](http://javatar81.blogspot.com/2016/06/hibernate-validator-spring-expression.html)
