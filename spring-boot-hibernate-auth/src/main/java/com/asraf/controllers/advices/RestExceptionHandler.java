@@ -33,11 +33,11 @@ import com.asraf.exceptions.DuplicateResourceFoundException;
 import com.asraf.exceptions.ResourceNotFoundException;
 import com.asraf.utils.EnumUtils;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
-@Log4j
+@Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final ApiErrorMapper apiErrorMapper;
@@ -121,6 +121,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(DuplicateResourceFoundException.class)
 	protected ResponseEntity<Object> handleDuplicateResourceFoundException(DuplicateResourceFoundException ex) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.CONFLICT)
 				.setMessage(ex.getMessage()).build();
 		return buildResponseEntity(apiError);
@@ -154,7 +155,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 					.setMessage("Resource already exists").setDebugMessage(ex.getCause()).build();
 			return buildResponseEntity(apiError);
 		}
-		log.error(ex);
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 				.setDebugMessage(ex).build();
 		return buildResponseEntity(apiError);
@@ -194,7 +195,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value = { Exception.class })
 	protected ResponseEntity<Object> handleException(RuntimeException ex, WebRequest request) {
-		log.error(ex);
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.BAD_REQUEST)
 				.setDebugMessage(ex).setMessage("ExceptionHandler is not defined for: " + ex.getClass()).build();
 		return buildResponseEntity(apiError);
