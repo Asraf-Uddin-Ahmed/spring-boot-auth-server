@@ -17,8 +17,8 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@ValidateClassExpression(value = "(#this.password.equals(#this.confirmPassword))", message = "password mismatch")
-@ValidateClassExpression(value = "(#this.userStatus != null)", message = "userStatus should not null")
+@ValidateClassExpression(value = "(#this.password.equals(#this.confirmPassword))", message = "password.mismatch")
+@ValidateClassExpression(value = "(#this.userStatus != null)", message = "userstatus.required")
 public class UserRequestDto extends BaseRequestDto {
 
 	@NotBlank

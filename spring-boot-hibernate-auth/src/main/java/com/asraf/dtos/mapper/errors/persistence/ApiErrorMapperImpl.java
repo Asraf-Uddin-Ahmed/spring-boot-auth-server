@@ -19,27 +19,32 @@ import com.asraf.dtos.mapper.errors.CsvValidationErrorMapper;
 import com.asraf.dtos.mapper.persistence.DtoMapperImpl;
 import com.asraf.dtos.response.errors.ApiErrorResponseDto;
 import com.asraf.dtos.response.errors.CsvValidationErrorResponseDto;
+import com.asraf.services.MessageSourceService;
 
 @Component
 @Scope(value = "prototype")
 public class ApiErrorMapperImpl extends DtoMapperImpl implements ApiErrorMapper {
 
 	private ApiErrorResponseDto apiErrorResponseDto;
-
+	
 	private final ApiValidationErrorMapper apiValidationErrorMapper;
 	private final CsvValidationErrorMapper csvValidationErrorMapper;
-
+	private final MessageSourceService messageSourceService;
+	
 	@Autowired
-	protected ApiErrorMapperImpl(ModelMapper modelMapper, ApiValidationErrorMapper apiValidationErrorMapper,
+	protected ApiErrorMapperImpl(ModelMapper modelMapper, 
+			ApiValidationErrorMapper apiValidationErrorMapper,
+			MessageSourceService messageSourceService, 
 			CsvValidationErrorMapper csvValidationErrorMapper) {
 		super(modelMapper);
 		this.apiValidationErrorMapper = apiValidationErrorMapper;
 		this.csvValidationErrorMapper = csvValidationErrorMapper;
+		this.messageSourceService = messageSourceService;
 	}
 
 	public ApiErrorMapperImpl initDefaultValidationError() {
 		this.apiErrorResponseDto.setStatus(HttpStatus.BAD_REQUEST);
-		this.apiErrorResponseDto.setMessage("Validation error");
+		this.apiErrorResponseDto.setMessage(messageSourceService.getMessage("validation.error"));
 		return this;
 	}
 
@@ -49,7 +54,7 @@ public class ApiErrorMapperImpl extends DtoMapperImpl implements ApiErrorMapper 
 	}
 
 	public ApiErrorMapperImpl setMessage(String message) {
-		this.apiErrorResponseDto.setMessage(message);
+		this.apiErrorResponseDto.setMessage(messageSourceService.getMessage(message));
 		return this;
 	}
 
