@@ -50,6 +50,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		String error = ex.getParameterName() + " parameter is missing";
 		return buildResponseEntity(this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.BAD_REQUEST)
 				.setDebugMessage(ex).setMessage(error).build());
@@ -58,6 +59,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		StringBuilder builder = new StringBuilder();
 		builder.append(ex.getContentType());
 		builder.append(" media type is not supported. Supported media types are ");
@@ -69,6 +71,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().initDefaultValidationError()
 				.addValidationFieldErrors(ex.getBindingResult().getFieldErrors())
 				.addValidationObjectErrors(ex.getBindingResult().getGlobalErrors()).build();
@@ -78,6 +81,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ServletWebRequest servletWebRequest = (ServletWebRequest) request;
 		log.info(String.format("%s to %s", servletWebRequest.getHttpMethod().toString(),
 				servletWebRequest.getRequest().getServletPath().toString()));
@@ -89,6 +93,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		String error = "Error writing JSON output";
 		return buildResponseEntity(this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 				.setDebugMessage(ex).setMessage(error).build());
@@ -100,6 +105,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(javax.validation.ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().initDefaultValidationError()
 				.addValidationErrors(ex.getConstraintViolations()).build();
 		return buildResponseEntity(apiError);
@@ -107,6 +113,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(MessagingException.class)
 	protected ResponseEntity<Object> handleMessagingException(MessagingException ex) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 				.setMessage(ex.getMessage()).build();
 		return buildResponseEntity(apiError);
@@ -114,6 +121,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	protected ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.NOT_FOUND)
 				.setMessage(ex.getMessage()).build();
 		return buildResponseEntity(apiError);
@@ -129,6 +137,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(EntityNotFoundException.class)
 	protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.NOT_FOUND)
 				.setDebugMessage(ex).build();
 		return buildResponseEntity(apiError);
@@ -136,6 +145,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(NoSuchElementException.class)
 	protected ResponseEntity<Object> handleNoSuchElement(NoSuchElementException ex) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.NOT_FOUND)
 				.setMessage(ex.getMessage()).build();
 		return buildResponseEntity(apiError);
@@ -144,6 +154,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
 			WebRequest request) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		if (ex.getCause() instanceof ConstraintViolationException) {
 			ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.BAD_REQUEST)
 					.setMessage("Operation cannot be performed. Integrity Constraint violated")
@@ -155,7 +166,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 					.setMessage("Resource already exists").setDebugMessage(ex.getCause()).build();
 			return buildResponseEntity(apiError);
 		}
-		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 				.setDebugMessage(ex).build();
 		return buildResponseEntity(apiError);
@@ -164,6 +174,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
 			WebRequest request) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		String message = String.format("The parameter '%s' of value '%s' could not be converted to type '%s'",
 				ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.BAD_REQUEST)
@@ -174,6 +185,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request)
 			throws ClassNotFoundException {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.BAD_REQUEST)
 				.setDebugMessage(ex).build();
 		String message = ex.getMessage();
@@ -187,6 +199,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(AccessDeniedException.class)
 	protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(AccessDeniedException ex, WebRequest request) {
+		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		String message = "You are not authorize to access this request";
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.FORBIDDEN)
 				.setMessage(message).setDebugMessage(ex).build();
