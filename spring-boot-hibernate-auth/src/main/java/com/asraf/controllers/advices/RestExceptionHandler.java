@@ -27,10 +27,12 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.asraf.constants.MessageKey;
 import com.asraf.dtos.mapper.errors.ApiErrorMapper;
 import com.asraf.dtos.response.errors.ApiErrorResponseDto;
 import com.asraf.exceptions.DuplicateResourceFoundException;
 import com.asraf.exceptions.ResourceNotFoundException;
+import com.asraf.services.MessageSourceService;
 import com.asraf.utils.EnumUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +43,12 @@ import lombok.extern.slf4j.Slf4j;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final ApiErrorMapper apiErrorMapper;
+	private final MessageSourceService messageSourceService;
 
 	@Autowired
-	public RestExceptionHandler(ApiErrorMapper apiErrorMapper) {
+	public RestExceptionHandler(ApiErrorMapper apiErrorMapper, MessageSourceService messageSourceService) {
 		this.apiErrorMapper = apiErrorMapper;
+		this.messageSourceService = messageSourceService;
 	}
 
 	@Override
@@ -131,7 +135,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleDuplicateResourceFoundException(DuplicateResourceFoundException ex) {
 		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.CONFLICT)
-				.setMessage(ex.getMessage()).build();
+				.setMessage(this.messageSourceService
+						.getMessage(MessageKey.DuplicateResourceFoundException.DuplicateResourceFoundException))
+				.setDebugMessage(ex).build();
 		return buildResponseEntity(apiError);
 	}
 
