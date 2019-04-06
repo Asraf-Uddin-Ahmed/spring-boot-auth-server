@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import com.asraf.constants.MessageKey;
 import com.asraf.dtos.mapper.errors.ApiErrorMapper;
 import com.asraf.dtos.mapper.errors.ApiValidationErrorMapper;
 import com.asraf.dtos.mapper.errors.CsvValidationErrorMapper;
@@ -44,7 +45,7 @@ public class ApiErrorMapperImpl extends DtoMapperImpl implements ApiErrorMapper 
 
 	public ApiErrorMapperImpl initDefaultValidationError() {
 		this.apiErrorResponseDto.setStatus(HttpStatus.BAD_REQUEST);
-		this.apiErrorResponseDto.setMessage(messageSourceService.getMessage("validation.error"));
+		this.apiErrorResponseDto.setMessage(messageSourceService.getMessage(MessageKey.Validation.ERROR));
 		return this;
 	}
 
