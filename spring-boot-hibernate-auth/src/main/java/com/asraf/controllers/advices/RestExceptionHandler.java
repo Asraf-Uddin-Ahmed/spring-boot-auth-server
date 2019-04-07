@@ -52,24 +52,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		log.error(ex.getClass().getSimpleName() + " - ", ex);
-		String error = ex.getParameterName() + " parameter is missing";
-		// TODO: use properties file
 		return buildResponseEntity(this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.BAD_REQUEST)
-				.setDebugMessage(ex).setMessageByErrorCode(error).build());
+				.setMessageByErrorCode(ErrorCode.HttpError.MissingServletRequestParameter, ex.getParameterName())
+				.setDebugMessage(ex).build());
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		log.error(ex.getClass().getSimpleName() + " - ", ex);
-		StringBuilder builder = new StringBuilder();
-		builder.append(ex.getContentType());
-		builder.append(" media type is not supported. Supported media types are ");
-		ex.getSupportedMediaTypes().forEach(t -> builder.append(t).append(", "));
-		String message = builder.substring(0, builder.length() - 2);
-		// TODO: use properties file
 		return buildResponseEntity(this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-				.setDebugMessage(ex).setMessageByErrorCode(message).build());
+				.setMessageByErrorCode(ErrorCode.HttpError.MissingServletRequestParameter, ex.getContentType(),
+						ex.getSupportedMediaTypes().toString())
+				.setDebugMessage(ex).build());
 	}
 
 	@Override
@@ -90,7 +85,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 				servletWebRequest.getRequest().getServletPath().toString()));
 		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		return buildResponseEntity(this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.BAD_REQUEST)
-				.setDebugMessage(ex).setMessageByErrorCode(ErrorCode.HttpMessageNotReadable.VALUE).build());
+				.setDebugMessage(ex).setMessageByErrorCode(ErrorCode.HttpError.Message.NOT_READABLE).build());
 	}
 
 	@Override
@@ -98,7 +93,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		log.error(ex.getClass().getSimpleName() + " - ", ex);
 		return buildResponseEntity(this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-				.setDebugMessage(ex).setMessageByErrorCode(ErrorCode.HttpMessageNotWritable.VALUE).build());
+				.setDebugMessage(ex).setMessageByErrorCode(ErrorCode.HttpError.Message.NOT_WRITABLE).build());
 	}
 
 	/*
@@ -178,11 +173,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
 			WebRequest request) {
 		log.error(ex.getClass().getSimpleName() + " - ", ex);
-		String message = String.format("The parameter '%s' of value '%s' could not be converted to type '%s'",
-				ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
-		// TODO: use properties file
 		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.BAD_REQUEST)
-				.setMessageByErrorCode(message).setDebugMessage(ex).build();
+				.setMessageByErrorCode(ErrorCode.Exception.MethodArgumentTypeMismatch.VALUE, ex.getName(),
+						ex.getValue(), ex.getRequiredType().getSimpleName())
+				.setDebugMessage(ex).build();
 		return buildResponseEntity(apiError);
 	}
 
@@ -195,9 +189,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		String message = ex.getMessage();
 		if (message.contains("enum")) {
 			String enumClassName = message.substring(message.lastIndexOf(' '), message.lastIndexOf('.')).trim();
-			// TODO: use properties file
-			this.apiErrorMapper.setMessageByErrorCode(
-					String.format("Enum value must be: %s", EnumUtils.getNames(enumClassName).toString()));
+			this.apiErrorMapper.setMessageByErrorCode(ErrorCode.Exception.IllegalArgument.ENUM,
+					EnumUtils.getNames(enumClassName).toString());
 		} else {
 			this.apiErrorMapper.setMessageByErrorCode(ErrorCode.Exception.IllegalArgument.VALUE);
 		}
@@ -215,9 +208,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = { Exception.class })
 	protected ResponseEntity<Object> handleException(RuntimeException ex, WebRequest request) {
 		log.error(ex.getClass().getSimpleName() + " - ", ex);
-		// TODO: use properties file
-		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.BAD_REQUEST)
-				.setMessageByErrorCode("ExceptionHandler is not defined for: " + ex.getClass()).setDebugMessage(ex)
+		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+				.setMessageByErrorCode(ErrorCode.Exception.VALUE, ex.getClass().getSimpleName()).setDebugMessage(ex)
 				.build();
 		return buildResponseEntity(apiError);
 	}

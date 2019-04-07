@@ -41,30 +41,36 @@ public class ApiErrorMapperImpl extends DtoMapperImpl implements ApiErrorMapper 
 		this.messageSourceService = messageSourceService;
 	}
 
-	public ApiErrorMapperImpl initDefaultValidationError() {
+	public ApiErrorMapper initDefaultValidationError() {
 		this.apiErrorResponseDto.setStatus(HttpStatus.BAD_REQUEST);
 		this.apiErrorResponseDto.setErrorCode(ErrorCode.Validation.ERROR);
 		this.apiErrorResponseDto.setMessage(messageSourceService.getMessage(ErrorCode.Validation.ERROR));
 		return this;
 	}
 
-	public ApiErrorMapperImpl setStatus(HttpStatus status) {
+	public ApiErrorMapper setStatus(HttpStatus status) {
 		this.apiErrorResponseDto.setStatus(status);
 		return this;
 	}
 
-	public ApiErrorMapperImpl setMessageByErrorCode(String errorCode) {
+	public ApiErrorMapper setMessageByErrorCode(String errorCode) {
 		this.apiErrorResponseDto.setErrorCode(errorCode);
 		this.apiErrorResponseDto.setMessage(messageSourceService.getMessage(errorCode));
 		return this;
 	}
 
-	public ApiErrorMapperImpl setDebugMessage(Throwable exception) {
+	public ApiErrorMapper setMessageByErrorCode(String errorCode, Object... params) {
+		this.apiErrorResponseDto.setErrorCode(errorCode);
+		this.apiErrorResponseDto.setMessage(String.format(messageSourceService.getMessage(errorCode), params));
+		return this;
+	}
+
+	public ApiErrorMapper setDebugMessage(Throwable exception) {
 		this.apiErrorResponseDto.setDebugMessage(exception.getLocalizedMessage());
 		return this;
 	}
 
-	public ApiErrorMapperImpl addValidationFieldErrors(List<FieldError> fieldErrors) {
+	public ApiErrorMapper addValidationFieldErrors(List<FieldError> fieldErrors) {
 		fieldErrors.forEach(this::addValidationError);
 		return this;
 	}

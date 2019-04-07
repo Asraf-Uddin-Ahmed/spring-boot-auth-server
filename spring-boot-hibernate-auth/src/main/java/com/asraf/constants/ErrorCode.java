@@ -1,16 +1,21 @@
 package com.asraf.constants;
 
+
 public class ErrorCode {
 
 	/*
 	 * Request and Response error
 	 */
-	public static final class HttpMessageNotReadable {
-		public static final String VALUE = "httpmessagenotreadable";
-	}
-
-	public static final class HttpMessageNotWritable {
-		public static final String VALUE = "httpmessagenotwritable";
+	public static final class HttpError {
+		private static final String VALUE = "httperror";
+		public static final String MissingServletRequestParameter = "missingservletrequestparameter";
+		public static final String HttpMediaTypeNotSupported = "httpmediatypenotsupported";
+		
+		public static final class Message {
+			private static final String VALUE = HttpError.VALUE + ".message";
+			public static final String NOT_READABLE = Message.VALUE + ".notreadable";
+			public static final String NOT_WRITABLE = Message.VALUE + ".notwritable";
+		}
 	}
 
 	/*
@@ -47,12 +52,16 @@ public class ErrorCode {
 
 		public static final class DataIntegrityViolation {
 			public static final String VALUE = Exception.VALUE + ".dataintegrityviolation";
-			public static final String CONSTRAINT_VIOLATION = DataIntegrityViolation.VALUE
-					+ ".constraintviolation";
+			public static final String CONSTRAINT_VIOLATION = DataIntegrityViolation.VALUE + ".constraintviolation";
+		}
+
+		public static final class MethodArgumentTypeMismatch {
+			public static final String VALUE = Exception.VALUE + ".methodargumenttypemismatch";
 		}
 
 		public static final class IllegalArgument {
 			public static final String VALUE = Exception.VALUE + ".illegalargument";
+			public static final String ENUM = IllegalArgument.VALUE + ".enum";
 		}
 
 		public static final class AccessDenied {
