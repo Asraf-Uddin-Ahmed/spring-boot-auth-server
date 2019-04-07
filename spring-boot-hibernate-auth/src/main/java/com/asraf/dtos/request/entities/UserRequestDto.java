@@ -7,7 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.asraf.constants.MessageKey;
+import com.asraf.constants.ErrorCode;
 import com.asraf.dtos.request.BaseRequestDto;
 import com.asraf.validators.ValidateClassExpression;
 
@@ -18,8 +18,8 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@ValidateClassExpression(value = "(#this.password.equals(#this.confirmPassword))", message = MessageKey.Password.MISMATCH)
-@ValidateClassExpression(value = "(#this.userStatus != null)", message = MessageKey.UserStatus.REQUIRED)
+@ValidateClassExpression(value = "(#this.password.equals(#this.confirmPassword))", message = ErrorCode.Password.MISMATCH)
+@ValidateClassExpression(value = "(#this.userStatus != null)", message = ErrorCode.UserStatus.REQUIRED)
 public class UserRequestDto extends BaseRequestDto {
 
 	@NotBlank

@@ -34,7 +34,8 @@ public class ApiValidationErrorMapperImpl extends DtoMapperImpl implements ApiVa
 	public ApiValidationErrorResponseDto getApiValidationError(ConstraintViolation<?> constraintViolation) {
 		return new ApiValidationErrorResponseDto(constraintViolation.getRootBeanClass().getSimpleName(),
 				((PathImpl) constraintViolation.getPropertyPath()).getLeafNode().asString(),
-				constraintViolation.getInvalidValue(), messageSourceService.getMessage(constraintViolation.getMessage()));
+				constraintViolation.getInvalidValue(), constraintViolation.getMessage(),
+				messageSourceService.getMessage(constraintViolation.getMessage()));
 	}
 
 	public List<ApiValidationErrorResponseDto> getApiValidationErrors(
@@ -49,11 +50,13 @@ public class ApiValidationErrorMapperImpl extends DtoMapperImpl implements ApiVa
 
 	public ApiValidationErrorResponseDto getApiValidationError(FieldError fieldError) {
 		return new ApiValidationErrorResponseDto(fieldError.getObjectName(), fieldError.getField(),
-				fieldError.getRejectedValue(), messageSourceService.getMessage(fieldError.getDefaultMessage()));
+				fieldError.getRejectedValue(), fieldError.getDefaultMessage(),
+				messageSourceService.getMessage(fieldError.getDefaultMessage()));
 	}
 
 	public ApiValidationErrorResponseDto getApiValidationError(ObjectError objectError) {
-		return new ApiValidationErrorResponseDto(objectError.getObjectName(), messageSourceService.getMessage(objectError.getDefaultMessage()));
+		return new ApiValidationErrorResponseDto(objectError.getObjectName(), objectError.getDefaultMessage(),
+				messageSourceService.getMessage(objectError.getDefaultMessage()));
 	}
 
 }

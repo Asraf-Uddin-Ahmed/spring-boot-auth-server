@@ -11,9 +11,9 @@ import com.asraf.constants.UserRoleResponse;
 import com.asraf.dtos.response.BaseResponseDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
 import lombok.Data;
@@ -26,12 +26,13 @@ import lombok.ToString;
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
 @JsonTypeIdResolver(LowerCaseClassNameResolver.class)
 @JsonView(UserRoleResponse.Anonymous.class)
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(Include.NON_EMPTY)
 public class ApiErrorResponseDto extends BaseResponseDto {
 
 	private HttpStatus status;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
 	private LocalDateTime timestamp;
+	private String errorCode;
 	private String message;
 	private String debugMessage;
 	private List<ApiSubErrorResponseDto> subErrors;

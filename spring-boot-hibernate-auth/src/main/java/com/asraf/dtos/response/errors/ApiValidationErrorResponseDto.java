@@ -17,10 +17,12 @@ public class ApiValidationErrorResponseDto extends ApiSubErrorResponseDto {
 	private String object;
 	private String field;
 	private Object rejectedValue;
+	private String errorCode;
 	private String message;
 
-	public ApiValidationErrorResponseDto(String object, String message) {
+	public ApiValidationErrorResponseDto(String object, String errorCode, String message) {
 		this.object = object;
+		this.errorCode = errorCode;
 		this.message = message;
 	}
 }

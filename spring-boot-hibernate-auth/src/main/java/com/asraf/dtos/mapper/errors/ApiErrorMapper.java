@@ -18,7 +18,7 @@ public interface ApiErrorMapper {
 
 	ApiErrorMapperImpl setStatus(HttpStatus status);
 
-	ApiErrorMapperImpl setMessage(String message);
+	ApiErrorMapperImpl setMessageByErrorCode(String message);
 
 	ApiErrorMapperImpl setDebugMessage(Throwable exception);
 
