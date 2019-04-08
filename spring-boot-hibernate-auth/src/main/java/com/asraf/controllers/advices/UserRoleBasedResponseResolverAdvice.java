@@ -1,6 +1,8 @@
 package com.asraf.controllers.advices;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -19,6 +21,13 @@ import com.asraf.constants.UserRoleResponse;
 @ControllerAdvice
 public class UserRoleBasedResponseResolverAdvice extends AbstractMappingJacksonResponseBodyAdvice {
 
+	private final List<String> IGNORE_PATH_LIST = Arrays.asList(
+			"/v2/api-docs", 
+			"/swagger-resources",
+			"/swagger-resources/configuration/security",
+			"/swagger-resources/configuration/ui"
+			);
+	
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         return super.supports(returnType, converterType);
@@ -28,6 +37,10 @@ public class UserRoleBasedResponseResolverAdvice extends AbstractMappingJacksonR
     protected void beforeBodyWriteInternal(MappingJacksonValue bodyContainer, MediaType contentType,
                                            MethodParameter returnType, ServerHttpRequest request, ServerHttpResponse response) {
 
+    	if(IGNORE_PATH_LIST.contains(request.getURI().getPath())) {
+    		return;
+    	}
+    	
         Class<?> viewClass = UserRoleResponse.Anonymous.class;
 
         if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().getAuthorities() != null) {

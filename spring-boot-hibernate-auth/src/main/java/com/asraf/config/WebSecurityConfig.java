@@ -49,7 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-        	.antMatchers("/", "/requests", "/accounts/forgot-password", "/accounts/change-password/*")
+        	.antMatchers("/", "/requests", "/accounts/forgot-password", "/accounts/change-password/*", 
+        			"/v2/api-docs", "/swagger-ui.html", "/webjars/**", "/swagger-resources/**")
         	.antMatchers(HttpMethod.POST, "/accounts");
     }
     

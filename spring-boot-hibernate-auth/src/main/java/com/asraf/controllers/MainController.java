@@ -43,23 +43,23 @@ public class MainController {
 		return new MainAuthenticatedResource();
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/main/{id}")
 	public String getById(@PathVariable("id") String id) {
 		return "getById -> " + id;
 	}
 
-	@PostMapping("")
+	@PostMapping("/main")
 	public String create() {
 		return "create";
 	}
 
-	@PutMapping("")
+	@PutMapping("/main")
 	public String update() {
 		return "update";
 	}
 
 	@PreAuthorize(RolePreAuthorizeConditions.ADMIN)
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/main/{id}")
 	public String delete(@PathVariable("id") String id) {
 		return "delete -> " + id;
 	}
