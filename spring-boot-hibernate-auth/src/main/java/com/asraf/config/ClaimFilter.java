@@ -40,9 +40,9 @@ public class ClaimFilter implements Filter {
 		try {
 			Object payloadAudience = jwtUtils.getPayloadValue("aud", request);
 			String requestedAudience = HttpServletUtils.getRefererBaseUrl(request);
-			if ((requestedAudience != null && payloadAudience != null
-					&& !payloadAudience.toString().equals(requestedAudience))
-					|| (requestedAudience != payloadAudience)) {
+			if ((requestedAudience == null && payloadAudience != null) 
+					|| (requestedAudience != null && payloadAudience == null)
+					|| !payloadAudience.toString().equals(requestedAudience)) {
 				response.sendError(HttpServletResponse.SC_FORBIDDEN, "Audience mismatch");
 			}
 		} catch (FormatMismatch e) {
