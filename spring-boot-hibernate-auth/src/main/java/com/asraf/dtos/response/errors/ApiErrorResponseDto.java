@@ -7,13 +7,11 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-import com.asraf.constants.UserRoleResponse;
 import com.asraf.dtos.response.BaseResponseDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
 import lombok.Data;
@@ -25,7 +23,6 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
 @JsonTypeIdResolver(LowerCaseClassNameResolver.class)
-@JsonView(UserRoleResponse.Anonymous.class)
 @JsonInclude(Include.NON_EMPTY)
 public class ApiErrorResponseDto extends BaseResponseDto {
 
