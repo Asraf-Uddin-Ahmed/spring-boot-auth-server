@@ -42,7 +42,7 @@ public class ClaimFilter implements Filter {
 			String requestedAudience = HttpServletUtils.getRefererBaseUrl(request);
 			if ((requestedAudience == null && payloadAudience != null) 
 					|| (requestedAudience != null && payloadAudience == null)
-					|| !payloadAudience.toString().equals(requestedAudience)) {
+					|| (requestedAudience != null && payloadAudience != null && !payloadAudience.toString().equals(requestedAudience))) {
 				response.sendError(HttpServletResponse.SC_FORBIDDEN, "Audience mismatch");
 			}
 		} catch (FormatMismatch e) {
