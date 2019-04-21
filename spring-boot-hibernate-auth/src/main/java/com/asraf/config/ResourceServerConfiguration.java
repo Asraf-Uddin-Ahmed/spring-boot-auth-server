@@ -17,13 +17,18 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
 	@Autowired
     private DefaultTokenServices tokenServices;
-    
+	@Autowired
+	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+	
     private static final String RESOURCE_ID = "resource-server-rest-api";
     private static final String SECURED_PATTERN = "/**";
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
-        resources.resourceId(RESOURCE_ID).tokenServices(tokenServices);
+        resources.resourceId(RESOURCE_ID)
+        .tokenServices(tokenServices)
+        .authenticationEntryPoint(restAuthenticationEntryPoint)
+        ;
     }
 
     @Override
