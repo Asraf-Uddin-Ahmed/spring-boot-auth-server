@@ -18,8 +18,10 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@ValidateClassExpression(value = "(#this.password.equals(#this.confirmPassword))", message = ErrorCode.Password.MISMATCH)
-@ValidateClassExpression(value = "(#this.userStatus != null)", message = ErrorCode.UserStatus.REQUIRED)
+@ValidateClassExpression(value = "(#this.password.equals(#this.confirmPassword))", message = ErrorCode.Password.MISMATCH, actionMessage = "This field need to be equals with {dependentFields}", appliedFields = {
+		"confirmPassword" }, dependentFields = { "password" })
+@ValidateClassExpression(value = "(#this.userStatus != null)", message = ErrorCode.UserStatus.REQUIRED, actionMessage = "Field must not be null", appliedFields = {
+		"userStatus" })
 public class UserRequestDto extends BaseRequestDto {
 
 	@NotBlank
@@ -33,7 +35,7 @@ public class UserRequestDto extends BaseRequestDto {
 	@NotBlank
 	@Size(min = 3, max = 100)
 	private String password;
-	
+
 	private String confirmPassword;
 
 	private String userStatus;
