@@ -1,5 +1,5 @@
 package com.asraf.entities;
-// Generated Sep 3, 2018 1:22:50 PM by Hibernate Tools 5.2.10.Final
+// Generated Jun 12, 2019 3:26:05 PM by Hibernate Tools 5.2.12.Final
 
 import java.util.Date;
 import javax.persistence.Column;
