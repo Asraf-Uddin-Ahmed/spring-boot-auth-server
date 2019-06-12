@@ -37,4 +37,9 @@ public class EntityGenerationStrategy extends DelegatingReverseEngineeringStrate
 		return metaAttributes;
 	}
 
+//	@Override
+//	public String getTableIdentifierStrategyName(TableIdentifier tableIdentifier) {
+//        return org.hibernate.id.IdentityGenerator.class.getName();
+//    }
+	
 }
