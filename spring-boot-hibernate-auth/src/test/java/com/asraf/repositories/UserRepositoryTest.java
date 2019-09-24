@@ -27,7 +27,7 @@ public class UserRepositoryTest {
 	private UserRepository userRepository;
 
 	@Test
-	public void whenFindByusername_thenReturnUser() {
+	public void whenFindByUsername_thenReturnUser() {
 		// given
 		final String USERNAME = UUID.randomUUID().toString();
 		User ratul = new User(USERNAME, USERNAME + "@ratul.com", "password", "status", new Date(), new Date());
