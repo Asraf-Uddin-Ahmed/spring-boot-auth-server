@@ -27,7 +27,7 @@ public class UserServiceTest {
 	private static UserRepository userRepository;
 
 	@TestConfiguration
-	static class UserServiceImplTestContextConfiguration {
+	static class UserServiceTestContextConfiguration {
 		@Bean
 		public UserService userService() {
 			userRepository = mock(UserRepository.class);
