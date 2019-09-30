@@ -17,11 +17,11 @@ mvn clean package -Dmaven.test.skip=true
 ```
 To run jar file by default properties (or profile) file:
 ```
-java -jar target/spring-boot-hibernate-datajpa.jar
+java -jar target/spring-boot-hibernate-auth.jar
 ```
 To run jar file by specific profile (here is *prod*, which is fetching data from *application-prod.properties*) file:
 ```
-java -jar target/spring-boot-hibernate-datajpa.jar --spring.profiles.active=prod
+java -jar target/spring-boot-hibernate-auth.jar --spring.profiles.active=prod
 ```
 # References
 1. [Configure reverse engineering](http://www.codejava.net/frameworks/hibernate/java-hibernate-reverse-engineering-tutorial-with-eclipse-and-mysql)
@@ -33,3 +33,4 @@ java -jar target/spring-boot-hibernate-datajpa.jar --spring.profiles.active=prod
 7. [Profile based development](https://www.youtube.com/watch?v=0zjQX7WwjrI&feature=youtu.be&list=PLGDwUiT1wr6-Fn3N2oqJpTdhGjFHnIIKY)
 8. [Spring security role based response shaping](https://stackoverflow.com/questions/17276081/spring-3-2-filtering-jackson-json-output-based-on-spring-security-role)
 9. [SpEL based validation](http://javatar81.blogspot.com/2016/06/hibernate-validator-spring-expression.html)
+10. [Testing in Spring Boot](https://www.baeldung.com/spring-boot-testing)

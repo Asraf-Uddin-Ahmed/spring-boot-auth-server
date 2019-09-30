@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -37,8 +38,9 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 			AuthenticationException authenticationException) throws IOException, ServletException {
 
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-
-		ContentType contentType = ContentType.APPLICATION_XML.toString().contains(request.getHeader("Accept")) 
+		
+		String acceptHeader = request.getHeader("Accept");
+		ContentType contentType = StringUtils.isNotBlank(acceptHeader) && ContentType.APPLICATION_XML.toString().contains(acceptHeader) 
 				? ContentType.APPLICATION_XML : ContentType.APPLICATION_JSON;
 		response.setContentType(contentType.toString());
 		
