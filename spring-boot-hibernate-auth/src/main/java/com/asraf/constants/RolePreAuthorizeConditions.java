@@ -1,6 +1,6 @@
 package com.asraf.constants;
 
-public interface RolePreAuthorizeConditions {
-	final String USER = "hasRole('USER')";
-	final String ADMIN = "hasRole('ADMIN')";
+public class RolePreAuthorizeConditions {
+	public static final String USER = "hasRole('USER')";
+	public static final String ADMIN = "hasRole('ADMIN')";
 }
