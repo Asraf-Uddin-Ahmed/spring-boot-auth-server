@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import com.asraf.constants.PreAuthorizeConditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,7 +57,7 @@ public class UserController extends BaseController {
 		this.userResourceAssembler = userResourceAssembler;
 	}
 
-	@PreAuthorize("hasPermission('show-who-am-i,show-my-principal', 'true,true')")
+	@PreAuthorize(PreAuthorizeConditions.Permission.SHOW_WHO_AM_I_TRUE__SHOW_MY_PRINCIPAL_TRUE)
 	@GetMapping("/me")
 	public Principal user(Principal principal) {
 		return principal;

@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.asraf.constants.RoleAuthority;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.asraf.constants.RolePreAuthorizeConditions;
+import com.asraf.constants.PreAuthorizeConditions;
 import com.asraf.dtos.request.token.AccessTokenRequestDto;
 import com.asraf.dtos.request.token.RefreshTokenRequestDto;
 
@@ -32,7 +34,7 @@ public class TokenController {
 	@Resource(name = "tokenStore")
 	TokenStore tokenStore;
 
-	@PreAuthorize(RolePreAuthorizeConditions.ADMIN)
+	@Secured({RoleAuthority.ADMIN})
 	@RequestMapping(method = RequestMethod.GET, value = "clients/{clientId}/tokens")
 	public Collection<OAuth2AccessToken> getTokensByClient(@PathVariable String clientId) {
 		List<String> tokenValues = new ArrayList<String>();
@@ -45,7 +47,7 @@ public class TokenController {
 		return tokens;
 	}
 
-	@PreAuthorize(RolePreAuthorizeConditions.ADMIN)
+	@Secured({RoleAuthority.ADMIN})
 	@RequestMapping(method = RequestMethod.GET, value = "clients/{clientId}/username/{username}/tokens")
 	public Collection<OAuth2AccessToken> getTokensByClientAndUser(@PathVariable String clientId,
 			@PathVariable String username) {
