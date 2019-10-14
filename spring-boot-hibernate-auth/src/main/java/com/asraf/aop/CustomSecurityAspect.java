@@ -1,0 +1,50 @@
+package com.asraf.aop;
+
+import com.asraf.utils.JwtUtils;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Aspect
+@Component
+public class CustomSecurityAspect {
+
+    private JwtUtils jwtUtils;
+
+    @Autowired
+    public CustomSecurityAspect(JwtUtils jwtUtils) {
+        this.jwtUtils = jwtUtils;
+    }
+
+    @Pointcut("@annotation(annotation)")
+    private void customSecurityAnnotation(CustomSecurityAnnotation annotation) {
+        // Pointcut method
+    }
+
+    @Around("customSecurityAnnotation(annotation)")
+    public Object doSomething(ProceedingJoinPoint pjp, CustomSecurityAnnotation annotation) throws Throwable {
+        Object authoritiesObj = null;
+        try {
+            authoritiesObj = this.jwtUtils.getPayloadValue("authorities");
+        } catch (Exception ex) {
+            throw new AccessDeniedException("");
+        }
+        List<String> authorities = authoritiesObj == null ? new ArrayList<>() : (List<String>) authoritiesObj;
+        List<String> annotationValues = Arrays.asList(annotation.value());
+        for (String authority : authorities) {
+            if (annotationValues.contains(authority)) {
+                return pjp.proceed();
+            }
+        }
+        throw new AccessDeniedException("");
+    }
+
+}

@@ -37,9 +37,7 @@ public class ClaimPermissionEvaluator implements PermissionEvaluator {
 				}
 			}
 			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (FormatMismatch e) {
+		} catch (IOException | FormatMismatch e) {
 			e.printStackTrace();
 		}
 		return false;
