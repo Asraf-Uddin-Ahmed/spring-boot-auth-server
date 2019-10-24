@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
 import com.asraf.utils.JwtUtils;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
 	@Bean

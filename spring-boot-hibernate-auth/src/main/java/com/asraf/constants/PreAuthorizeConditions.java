@@ -6,7 +6,7 @@ public final class PreAuthorizeConditions {
     }
 
     public static final class Role {
-        public static final String USER = "hasRole('USER')";
+        public static final String ANONYMOUS = "hasRole('ANONYMOUS')";
         public static final String ADMIN = "hasRole('ADMIN')";
 
         private Role() {

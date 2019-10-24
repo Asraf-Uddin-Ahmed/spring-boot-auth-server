@@ -9,9 +9,7 @@ import java.net.URISyntaxException;
 
 import javax.mail.MessagingException;
 
-import com.asraf.constants.RoleAuthority;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.asraf.constants.PreAuthorizeConditions;
+import com.asraf.constants.RoleAuthority;
 import com.asraf.dtos.request.account.ForgotPasswordRequestDto;
 import com.asraf.dtos.request.entities.UserRequestDto;
 import com.asraf.dtos.request.main.TokenRequestDto;
