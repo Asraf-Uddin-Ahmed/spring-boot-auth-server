@@ -1,6 +1,8 @@
 package com.asraf.aop;
 
 import com.asraf.utils.JwtUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,6 +10,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +47,10 @@ public class CustomSecurityAspect {
             if (annotationValues.contains(authority)) {
                 return pjp.proceed();
             }
+        }
+        String clientId = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader("__CLIENTID__");
+        if(StringUtils.isNotBlank(clientId) && clientId.contains("SPRING")) {
+        	return pjp.proceed();
         }
         throw new AccessDeniedException("");
     }

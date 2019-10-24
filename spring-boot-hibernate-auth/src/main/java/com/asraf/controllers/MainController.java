@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.asraf.aop.CustomSecurityAnnotation;
 import com.asraf.constants.RoleAuthority;
 import com.asraf.dtos.request.account.ForgotPasswordRequestDto;
 import com.asraf.dtos.request.entities.UserRequestDto;
@@ -58,7 +59,7 @@ public class MainController {
 		return "update";
 	}
 
-	@Secured({RoleAuthority.ADMIN})
+	@CustomSecurityAnnotation({RoleAuthority.ADMIN})
 	@DeleteMapping("/main/{id}")
 	public String delete(@PathVariable("id") String id) {
 		return "delete -> " + id;
