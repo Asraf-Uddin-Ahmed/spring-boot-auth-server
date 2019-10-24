@@ -23,6 +23,7 @@ public class JwtUtils {
     };
 
     private String previousJwt = null;
+    private String currentJwt = null;
     private HashMap<String, Object> tokenPayload = null;
 
     public JwtUtils() {
@@ -46,10 +47,14 @@ public class JwtUtils {
         this.loadTokenPayloadIfNeeded(this.getRequest());
         return Long.parseLong(tokenPayload.get("sub").toString());
     }
-
+    
+    public String getToken() {
+		return currentJwt;
+	}
+    
     private void loadTokenPayloadIfNeeded(HttpServletRequest request)
             throws IOException, FormatMismatch {
-        String currentJwt = getTokenFromHeader(request);
+        currentJwt = getTokenFromHeader(request);
         if (!currentJwt.equals(this.previousJwt)) {
             String decodedString = JwtHelper.decode(currentJwt).getClaims();
             tokenPayload = new ObjectMapper().readValue(decodedString, TYPE_REF);

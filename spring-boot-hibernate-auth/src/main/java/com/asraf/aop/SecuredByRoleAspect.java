@@ -1,6 +1,8 @@
 package com.asraf.aop;
 
-import com.asraf.utils.JwtUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,33 +15,31 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.asraf.utils.JwtUtils;
 
 @Aspect
 @Component
-public class CustomSecurityAspect {
+public class SecuredByRoleAspect {
 
     private JwtUtils jwtUtils;
 
     @Autowired
-    public CustomSecurityAspect(JwtUtils jwtUtils) {
+    public SecuredByRoleAspect(JwtUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
     }
 
     @Pointcut("@annotation(annotation)")
-    private void customSecurityAnnotation(CustomSecurityAnnotation annotation) {
+    private void securedByRole(SecuredByRole annotation) {
         // Pointcut method
     }
 
-    @Around("customSecurityAnnotation(annotation)")
-    public Object doSomething(ProceedingJoinPoint pjp, CustomSecurityAnnotation annotation) throws Throwable {
+    @Around("securedByRole(annotation)")
+    public Object doSomething(ProceedingJoinPoint pjp, SecuredByRole annotation) throws Throwable {
         Object authoritiesObj = null;
         try {
             authoritiesObj = this.jwtUtils.getPayloadValue("authorities");
         } catch (Exception ex) {
-            throw new AccessDeniedException("");
+            throw new AccessDeniedException(jwtUtils.getToken());
         }
         List<String> authorities = authoritiesObj == null ? new ArrayList<>() : (List<String>) authoritiesObj;
         List<String> annotationValues = Arrays.asList(annotation.value());
@@ -52,7 +52,7 @@ public class CustomSecurityAspect {
         if(StringUtils.isNotBlank(clientId) && clientId.contains("SPRING")) {
         	return pjp.proceed();
         }
-        throw new AccessDeniedException("");
+        throw new AccessDeniedException(jwtUtils.getToken());
     }
 
 }

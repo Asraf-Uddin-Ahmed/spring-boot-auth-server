@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 
 import javax.mail.MessagingException;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.asraf.aop.CustomSecurityAnnotation;
+import com.asraf.aop.SecuredByRole;
 import com.asraf.constants.RoleAuthority;
 import com.asraf.dtos.request.account.ForgotPasswordRequestDto;
 import com.asraf.dtos.request.entities.UserRequestDto;
@@ -59,7 +58,7 @@ public class MainController {
 		return "update";
 	}
 
-	@CustomSecurityAnnotation({RoleAuthority.ADMIN})
+	@SecuredByRole({RoleAuthority.ADMIN})
 	@DeleteMapping("/main/{id}")
 	public String delete(@PathVariable("id") String id) {
 		return "delete -> " + id;

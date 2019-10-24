@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface CustomSecurityAnnotation {
+public @interface SecuredByRole {
     /**
      * Returns the list of security configuration attributes (e.g. USER, ADMIN).
      *
