@@ -13,7 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.asraf.entities.User;
+import com.asraf.auth.entities.User;
+import com.asraf.auth.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

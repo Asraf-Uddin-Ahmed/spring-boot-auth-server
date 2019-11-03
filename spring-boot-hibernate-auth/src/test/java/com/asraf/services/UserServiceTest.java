@@ -15,9 +15,10 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.asraf.entities.User;
-import com.asraf.repositories.UserRepository;
-import com.asraf.services.persistence.UserServiceImpl;
+import com.asraf.auth.entities.User;
+import com.asraf.auth.repositories.UserRepository;
+import com.asraf.auth.services.UserService;
+import com.asraf.auth.services.persistence.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
 public class UserServiceTest {
