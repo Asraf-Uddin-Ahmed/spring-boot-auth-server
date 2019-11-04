@@ -6,4 +6,8 @@ VALUES
 	('swagger-client', 
 	/*1234*/'$2a$04$EDhc4iSrKvJn1USNPoAO/..ao60m11nc7lnMn8CighIrW6p9fAMmC', 
 	'read,write,delete',
-	'password,authorization_code,refresh_token,implicit', 'http://localhost:8081/webjars/springfox-swagger-ui/oauth2-redirect.html', null, 36000, 36000, null, 'true');
+	'password,authorization_code,refresh_token,implicit', 'http://localhost:8081/webjars/springfox-swagger-ui/oauth2-redirect.html', null, 36000, 36000, null, 'true'),
+    ('swagger-client-resource', 
+	/*1234*/'$2a$04$EDhc4iSrKvJn1USNPoAO/..ao60m11nc7lnMn8CighIrW6p9fAMmC', 
+	'read,write,delete',
+	'password,authorization_code,refresh_token,implicit', 'http://localhost:8080/webjars/springfox-swagger-ui/oauth2-redirect.html', null, 36000, 36000, null, 'true');
